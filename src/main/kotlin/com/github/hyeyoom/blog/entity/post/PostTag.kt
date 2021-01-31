@@ -13,10 +13,10 @@ class PostTag(post: Post, tag: Tag): BaseTimeEntity() {
     val id: Long? = null
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "post_id")
-    val post: Post = post
+    @JoinColumn(name = "post_id", nullable = false)
+    var post: Post = post
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "tag_id")
+    @JoinColumn(name = "tag_id", nullable = false)
     val tag: Tag = tag
 }

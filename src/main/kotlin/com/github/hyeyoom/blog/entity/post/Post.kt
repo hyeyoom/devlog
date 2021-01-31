@@ -22,10 +22,18 @@ class Post(
     val content: String = content
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "account_id", nullable = false)
     val account: Account = account
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     val category: Category = category
+
+    @OneToMany(mappedBy = "post", cascade = [CascadeType.PERSIST])
+    val postTags: MutableSet<PostTag> = mutableSetOf()
+
+    fun addTag(tag: Tag) {
+        val postTag = PostTag(this, tag)
+        postTags.add(postTag)
+    }
 }
