@@ -1,12 +1,12 @@
 package com.github.hyeyoom.blog.entity.post
 
 import com.github.hyeyoom.blog.entity.BaseTimeEntity
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
+import javax.persistence.*
 
 @Entity
+@Table(
+    uniqueConstraints = [UniqueConstraint(name = "uq_category_name", columnNames = ["name"])]
+)
 class Category(name: String): BaseTimeEntity() {
 
     @Id

@@ -7,30 +7,27 @@ import javax.persistence.FetchType.LAZY
 
 @Entity
 class Post(
-    title: String, content: String,
-    account: Account, category: Category
-) : BaseTimeEntity() {
-
     @Id
     @GeneratedValue
-    val id: Long? = null
+    val id: Long? = null,
 
     @Column(nullable = false)
-    val title: String = title
+    val title: String,
 
     @Column(nullable = false)
-    val content: String = content
+    val content: String,
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "account_id", nullable = false)
-    val account: Account = account
+    val account: Account,
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id", nullable = false)
-    val category: Category = category
+    val category: Category,
 
     @OneToMany(mappedBy = "post", cascade = [CascadeType.PERSIST])
     val postTags: MutableSet<PostTag> = mutableSetOf()
+) : BaseTimeEntity() {
 
     fun addTag(tag: Tag) {
         val postTag = PostTag(this, tag)
