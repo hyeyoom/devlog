@@ -1,5 +1,7 @@
 package com.github.hyeyoom.blog.controller.page
 
+import com.github.hyeyoom.blog.aop.LoginRequired
+import com.github.hyeyoom.blog.config.converter.CurrentUser
 import com.github.hyeyoom.blog.controller.page.form.SignInForm
 import com.github.hyeyoom.blog.controller.page.form.SignUpForm
 import com.github.hyeyoom.blog.controller.page.form.WritePostForm
@@ -7,9 +9,10 @@ import com.github.hyeyoom.blog.entity.account.AccountRepository
 import com.github.hyeyoom.blog.entity.post.CategoryRepository
 import com.github.hyeyoom.blog.entity.post.PostRepository
 import com.github.hyeyoom.blog.entity.post.TagRepository
+import com.github.hyeyoom.blog.service.account.SignUpService
+import com.github.hyeyoom.blog.service.authentication.UserDetails
 import com.github.hyeyoom.blog.service.post.CategoryService
 import com.github.hyeyoom.blog.service.post.PostService
-import com.github.hyeyoom.blog.service.account.SignUpService
 import mu.KotlinLogging
 import org.springframework.stereotype.Controller
 import org.springframework.transaction.annotation.Transactional
@@ -37,7 +40,9 @@ class IndexController(
 ) {
 
     @GetMapping
-    fun main(): String {
+    fun main(@CurrentUser details: UserDetails?): String {
+        log.info(details?.getPrincipal())
+
         /*val account = Account("a@neoul.wiki", "hyeyoom")
         accountRepository.save(account)
         val tag = Tag("Java")
@@ -108,6 +113,7 @@ class IndexController(
         return "tag"
     }
 
+    @LoginRequired
     @GetMapping("/write")
     fun write(model: Model): String {
         val categories = categoryService.getCategories()

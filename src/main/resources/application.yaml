@@ -2,7 +2,11 @@
 spring:
   jpa:
     show-sql: true
-    #open-in-view: false
+    open-in-view: false
   h2:
     console:
       enabled: true
+
+logging:
+  level:
+    com.github.hyeyoom.blog: trace

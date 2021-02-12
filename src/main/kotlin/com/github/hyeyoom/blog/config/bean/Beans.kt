@@ -1,4 +1,4 @@
-package com.github.hyeyoom.blog.config
+package com.github.hyeyoom.blog.config.bean
 
 import com.github.hyeyoom.blog.service.authentication.BasicAuthenticationInterceptor
 import com.github.hyeyoom.blog.service.authentication.UserDetailsService

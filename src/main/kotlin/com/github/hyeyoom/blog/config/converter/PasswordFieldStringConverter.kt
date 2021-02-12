@@ -1,5 +1,6 @@
-package com.github.hyeyoom.blog.utils
+package com.github.hyeyoom.blog.config.converter
 
+import com.github.hyeyoom.blog.utils.EncryptionHashUtil
 import javax.persistence.AttributeConverter
 import javax.persistence.Convert
 
