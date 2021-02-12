@@ -8,7 +8,7 @@ import javax.persistence.FetchType.LAZY
 class PostTag(post: Post, tag: Tag): BaseTimeEntity() {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_tag_id")
     val id: Long? = null
 

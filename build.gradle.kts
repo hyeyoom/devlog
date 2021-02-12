@@ -1,11 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+	val kotlinVersion = "1.4.21"
 	id("org.springframework.boot") version "2.4.2"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
-	kotlin("jvm") version "1.4.21"
-	kotlin("plugin.spring") version "1.4.21"
-	kotlin("plugin.jpa") version "1.4.21"
+	kotlin("jvm") version kotlinVersion
+	kotlin("plugin.allopen") version kotlinVersion
+	kotlin("plugin.spring") version kotlinVersion
+	kotlin("plugin.jpa") version kotlinVersion
 }
 
 group = "com.github.hyeyoom"
@@ -16,6 +18,12 @@ configurations {
 	compileOnly {
 		extendsFrom(configurations.annotationProcessor.get())
 	}
+}
+
+allOpen {
+	annotation("javax.persistence.Entity")
+	annotation("javax.persistence.Embeddable")
+	annotation("javax.persistence.MappedSuperclass")
 }
 
 repositories {
@@ -33,6 +41,13 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	runtimeOnly("com.h2database:h2")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+}
+
+buildscript {
+	val kotlinVersion = "1.4.10"
+	dependencies {
+		classpath ("org.jetbrains.kotlin:kotlin-noarg:$kotlinVersion")
+	}
 }
 
 tasks.withType<KotlinCompile> {

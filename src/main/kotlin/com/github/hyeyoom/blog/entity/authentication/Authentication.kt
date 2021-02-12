@@ -8,7 +8,7 @@ import javax.persistence.*
 abstract class Authentication(
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "authentication_id")
     val id: Long? = null,
 

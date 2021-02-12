@@ -7,7 +7,7 @@ import javax.persistence.*
 class Tag(name: String) : BaseTimeEntity() {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tag_id")
     val id: Long? = null
 

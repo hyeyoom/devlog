@@ -10,7 +10,7 @@ import javax.persistence.*
 class Category(name: String): BaseTimeEntity() {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id")
     val id: Long? = null
 

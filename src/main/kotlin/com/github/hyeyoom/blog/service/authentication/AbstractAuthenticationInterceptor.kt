@@ -7,10 +7,12 @@ import com.github.hyeyoom.blog.service.authentication.exception.AuthenticationEx
 import com.github.hyeyoom.blog.service.authentication.handler.AuthenticationFailureHandler
 import com.github.hyeyoom.blog.service.authentication.handler.AuthenticationSuccessHandler
 import com.github.hyeyoom.blog.service.authentication.provider.Authenticator
+import mu.KotlinLogging
 import org.springframework.web.servlet.HandlerInterceptor
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
+private val log = KotlinLogging.logger {}
 abstract class AbstractAuthenticationInterceptor(
     private val authenticator: Authenticator,
     private val authenticationSuccessHandler: AuthenticationSuccessHandler,
@@ -22,8 +24,8 @@ abstract class AbstractAuthenticationInterceptor(
             val authentication = attemptAuthentication(request, response)
             handleSuccess(request, response, authentication)
         } catch (e: AuthenticationException) {
-            e.printStackTrace()
             handleFailure(request, response, e)
+            log.error(e.message, e)
         }
         return false
     }

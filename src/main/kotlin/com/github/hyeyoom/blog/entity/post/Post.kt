@@ -7,8 +7,9 @@ import javax.persistence.FetchType.LAZY
 
 @Entity
 class Post(
+
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
 
     @Column(nullable = false)
