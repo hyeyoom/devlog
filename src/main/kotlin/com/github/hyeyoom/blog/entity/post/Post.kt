@@ -34,4 +34,8 @@ class Post(
         val postTag = PostTag(this, tag)
         postTags.add(postTag)
     }
+
+    override fun toString(): String {
+        return "Post(id=$id, title='$title', content='$content', account=$account, category=$category, postTags=$postTags)"
+    }
 }

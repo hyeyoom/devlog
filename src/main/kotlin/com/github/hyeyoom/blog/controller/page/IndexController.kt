@@ -40,8 +40,9 @@ class IndexController(
 ) {
 
     @GetMapping
-    fun main(@CurrentUser details: UserDetails?): String {
+    fun main(@CurrentUser details: UserDetails?, model: Model): String {
         log.info(details?.getPrincipal())
+        val posts = postService.getPosts()
 
         /*val account = Account("a@neoul.wiki", "hyeyoom")
         accountRepository.save(account)
@@ -123,12 +124,18 @@ class IndexController(
         return "write"
     }
 
+    @LoginRequired
     @PostMapping("/write")
-    fun writePost(@Valid form: WritePostForm, bindingResult: BindingResult): String {
+    fun writePost(
+        @Valid form: WritePostForm,
+        bindingResult: BindingResult,
+        @CurrentUser details: UserDetails?
+    ): String {
         log.info("form: $form")
         if (bindingResult.hasFieldErrors()) {
             return "write"
         }
+        postService.write(form.toRequest(details?.getPrincipal()))
         return "redirect:/"
     }
 
