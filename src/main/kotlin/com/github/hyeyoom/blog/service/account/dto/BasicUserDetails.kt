@@ -6,7 +6,7 @@ import com.github.hyeyoom.blog.utils.EncryptionHashUtil
 data class BasicUserDetails(
     private val email: String,
     private val password: String
-):UserDetails {
+) : UserDetails {
 
     override fun getPrincipal(): String {
         return email
