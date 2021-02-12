@@ -1,9 +1,9 @@
-package com.github.hyeyoom.blog.service
+package com.github.hyeyoom.blog.service.account
 
 import com.github.hyeyoom.blog.entity.account.Account
 import com.github.hyeyoom.blog.entity.account.AccountRepository
 import com.github.hyeyoom.blog.entity.authentication.BasicAuthentication
-import com.github.hyeyoom.blog.service.dto.BasicSignUpRequest
+import com.github.hyeyoom.blog.service.account.dto.BasicSignUpRequest
 import org.springframework.stereotype.Service
 
 @Service

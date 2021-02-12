@@ -1,4 +1,4 @@
-package com.github.hyeyoom.blog.service.dto
+package com.github.hyeyoom.blog.service.post.dto
 
 data class PostWriteRequest(
     val title: String,

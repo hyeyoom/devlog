@@ -1,14 +1,15 @@
 package com.github.hyeyoom.blog.controller.page
 
+import com.github.hyeyoom.blog.controller.page.form.SignInForm
 import com.github.hyeyoom.blog.controller.page.form.SignUpForm
 import com.github.hyeyoom.blog.controller.page.form.WritePostForm
 import com.github.hyeyoom.blog.entity.account.AccountRepository
 import com.github.hyeyoom.blog.entity.post.CategoryRepository
 import com.github.hyeyoom.blog.entity.post.PostRepository
 import com.github.hyeyoom.blog.entity.post.TagRepository
-import com.github.hyeyoom.blog.service.CategoryService
-import com.github.hyeyoom.blog.service.PostService
-import com.github.hyeyoom.blog.service.SignUpService
+import com.github.hyeyoom.blog.service.post.CategoryService
+import com.github.hyeyoom.blog.service.post.PostService
+import com.github.hyeyoom.blog.service.account.SignUpService
 import mu.KotlinLogging
 import org.springframework.stereotype.Controller
 import org.springframework.transaction.annotation.Transactional
@@ -88,6 +89,13 @@ class IndexController(
         }
         signUpService.signUpBasic(form.toRequest())
         return "redirect:/"
+    }
+
+    @GetMapping("/signin")
+    fun signInPage(model: Model): String {
+        val signInForm = SignInForm()
+        model.addAttribute("signInForm", signInForm)
+        return "signin"
     }
 
     @GetMapping("/tags")

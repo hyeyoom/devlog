@@ -1,6 +1,6 @@
 package com.github.hyeyoom.blog.controller.page.form
 
-import com.github.hyeyoom.blog.service.dto.BasicSignUpRequest
+import com.github.hyeyoom.blog.service.account.dto.BasicSignUpRequest
 import java.lang.IllegalStateException
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotEmpty

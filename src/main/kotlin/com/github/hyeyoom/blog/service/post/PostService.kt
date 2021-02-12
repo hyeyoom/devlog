@@ -1,9 +1,8 @@
-package com.github.hyeyoom.blog.service
+package com.github.hyeyoom.blog.service.post
 
 import com.github.hyeyoom.blog.entity.post.Category
-import com.github.hyeyoom.blog.entity.post.Post
 import com.github.hyeyoom.blog.entity.post.PostRepository
-import com.github.hyeyoom.blog.service.dto.PostWriteRequest
+import com.github.hyeyoom.blog.service.post.dto.PostWriteRequest
 import org.springframework.stereotype.Service
 
 @Service

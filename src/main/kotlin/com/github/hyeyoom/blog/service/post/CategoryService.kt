@@ -1,8 +1,8 @@
-package com.github.hyeyoom.blog.service
+package com.github.hyeyoom.blog.service.post
 
 import com.github.hyeyoom.blog.entity.post.Category
 import com.github.hyeyoom.blog.entity.post.CategoryRepository
-import com.github.hyeyoom.blog.service.dto.CategoryDto
+import com.github.hyeyoom.blog.service.post.dto.CategoryDto
 import org.springframework.stereotype.Service
 import java.util.stream.Collectors
 

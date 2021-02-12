@@ -1,4 +1,4 @@
-package com.github.hyeyoom.blog.service.dto
+package com.github.hyeyoom.blog.service.account.dto
 
 data class BasicSignUpRequest(
     val email: String,
