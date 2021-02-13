@@ -11,6 +11,7 @@ import com.github.hyeyoom.blog.service.post.dto.PostDto
 import com.github.hyeyoom.blog.service.post.dto.PostSummary
 import com.github.hyeyoom.blog.service.post.dto.PostWriteRequest
 import mu.KotlinLogging
+import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
@@ -33,6 +34,16 @@ class PostService(
         return makePostDto(post)
     }
 
+    @Transactional
+    @CacheEvict(cacheNames = ["post"], key = "#title")
+    fun removePost(title: String, requester: String) {
+        val post = repository.findByTitle(title) ?: throw NoResourceFoundException("지울 페이지가 없다")
+        if(post.account.email != requester) {
+            throw IllegalStateException("타인의 게시글을 삭제하려고 함")
+        }
+        repository.delete(post)
+    }
+
     @Cacheable(cacheNames = ["posts_summary"])
     fun getSummaries(): MutableList<PostSummary> {
         val pages = repository.findPosts(PageRequest.of(0, 5))
@@ -41,6 +52,7 @@ class PostService(
             .collect(Collectors.toList())
     }
 
+    @CacheEvict(cacheNames = ["posts_summary"], allEntries = true)
     @Transactional
     fun write(request: PostWriteRequest) {
         val category = findCategory(request.category)

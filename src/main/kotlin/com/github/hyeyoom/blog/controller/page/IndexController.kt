@@ -52,13 +52,6 @@ class IndexController(
         return "page"
     }
 
-    @GetMapping("/pages/{title}")
-    fun page(@PathVariable title: String, model: Model): String {
-        val post = postService.getPost(title)
-        model.addAttribute("article", post)
-        return "post"
-    }
-
     @GetMapping("/categories")
     fun categories(): String {
         return "category"
@@ -129,7 +122,9 @@ class IndexController(
     }
 
     @GetMapping("/posts/{title}")
-    fun viewPost(@PathVariable title: String): String {
+    fun viewPost(@PathVariable title: String, model: Model): String {
+        val post = postService.getPost(title)
+        model.addAttribute("article", post)
         return "post"
     }
 

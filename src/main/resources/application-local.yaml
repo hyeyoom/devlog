@@ -2,13 +2,13 @@
 spring:
   jpa:
     show-sql: true
-    open-in-view: false
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
   h2:
     console:
       enabled: true
 
 logging:
   level:
-    com.github.hyeyoom.blog: info
+    com.github.hyeyoom.blog: trace
+    org.springframework.cache: trace

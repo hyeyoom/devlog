@@ -21,7 +21,7 @@
     <ul class="post-list-container">
         <li class="list-content" th:each="post : ${posts}">
             <div class="post-content">
-                <a th:href="'/pages/' + ${post.title}" class="post-link">
+                <a th:href="'/posts/' + ${post.title}" class="post-link">
                     <strong class="post-title" th:text="${post.title}"></strong>
                     <p class="post-summary" th:text="${post.summary}"></p>
                 </a>

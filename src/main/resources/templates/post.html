@@ -18,6 +18,7 @@
 <nav class="navbar">
     <div class="navbar-container">
         <a href="/">go back</a>
+        <a id="remove-this-post" href="#">삭제</a>
     </div>
 </nav>
 <main th:object="${article}">
@@ -37,6 +38,15 @@
     document.getElementById('post-content').innerHTML =
         marked(/*[[${article.content}]]*/)
     /*]]>*/
+
+    const btnRemove = document.getElementById('remove-this-post');
+    btnRemove.addEventListener('click', () => {
+        const title = window.location.href.split('/')[window.location.href.split('/').length - 1]
+        const l = `/v1/posts/${title}`
+        fetch(l, { method: 'DELETE' }).then(res => {
+            window.location.href = '/'
+        })
+    })
 </script>
 </body>
 </html>

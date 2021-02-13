@@ -6,6 +6,11 @@ import javax.persistence.*
 import javax.persistence.FetchType.LAZY
 
 @Entity
+@Table(
+    uniqueConstraints = [
+        UniqueConstraint(name = "uq_post_title", columnNames = ["title"]),
+    ]
+)
 class Post(
 
     @Id

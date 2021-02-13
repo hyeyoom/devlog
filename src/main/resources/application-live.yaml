@@ -2,8 +2,14 @@
 spring:
   jpa:
     show-sql: false
-    open-in-view: false
-
-logging:
-  level:
-    com.github.hyeyoom.blog: info
+    hibernate:
+      ddl-auto: validate
+  h2:
+    console:
+      enabled: true
+      path: /db
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:file:~/h2_db;AUTO_SERVER=TRUE
+    username: devlog-dba
+    password: ${DB_PASSWORD}
