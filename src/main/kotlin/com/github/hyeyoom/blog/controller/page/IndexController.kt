@@ -54,7 +54,7 @@ class IndexController(
 
     @GetMapping("/pages/{title}")
     fun page(@PathVariable title: String, model: Model): String {
-        val post = postService.getPostSummary(title)
+        val post = postService.getPost(title)
         model.addAttribute("article", post)
         return "post"
     }

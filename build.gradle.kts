@@ -31,16 +31,33 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
-	implementation("org.springframework.boot:spring-boot-starter-validation")
-	implementation("io.github.microutils:kotlin-logging:1.12.0")
+
+	// web mvc & test
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
+	// database
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	runtimeOnly("com.h2database:h2")
+
+	// caching
+	implementation("org.springframework.boot:spring-boot-starter-cache")
+	implementation("com.github.ben-manes.caffeine:caffeine:2.8.8")
+
+
+	// template engine
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+
+	// validation
+	implementation("org.springframework.boot:spring-boot-starter-validation")
+
+	// logging
+	implementation("io.github.microutils:kotlin-logging:1.12.0")
+
+	// etc & misc
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-	runtimeOnly("com.h2database:h2")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 buildscript {

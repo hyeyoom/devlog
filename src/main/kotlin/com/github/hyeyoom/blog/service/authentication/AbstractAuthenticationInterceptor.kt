@@ -29,11 +29,18 @@ abstract class AbstractAuthenticationInterceptor(
         } catch (e: AuthenticationException) {
             handleFailure(request, response, e)
             log.error(e.message, e)
+        } catch (e: Exception) {
+            handleFailure(request, response, AuthenticationException("Fatal error occurred.", e))
+            log.error(e.message, e)
         }
         return false
     }
 
-    private fun handleSuccess(request: HttpServletRequest, response: HttpServletResponse, authentication: Authentication) {
+    private fun handleSuccess(
+        request: HttpServletRequest,
+        response: HttpServletResponse,
+        authentication: Authentication
+    ) {
         SecurityContextHolder.getContext().setAuthentication(authentication)
         authenticationSuccessHandler.onAuthenticationSuccess(request, response, authentication)
     }

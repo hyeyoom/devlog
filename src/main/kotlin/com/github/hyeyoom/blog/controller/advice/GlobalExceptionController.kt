@@ -1,5 +1,6 @@
 package com.github.hyeyoom.blog.controller.advice
 
+import com.github.hyeyoom.blog.service.exception.NoResourceFoundException
 import mu.KotlinLogging
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
@@ -12,7 +13,11 @@ private val log = KotlinLogging.logger {}
 @ControllerAdvice
 class GlobalExceptionController {
 
-    @ExceptionHandler(NoHandlerFoundException::class)
+    @ExceptionHandler(
+        value = [
+            NoHandlerFoundException::class, NoResourceFoundException::class
+        ]
+    )
     fun handlePageNotFound(request: HttpServletRequest, e: Exception): ModelAndView {
         log.info("wrong path: ${request.requestURL}")
         val mav = ModelAndView()

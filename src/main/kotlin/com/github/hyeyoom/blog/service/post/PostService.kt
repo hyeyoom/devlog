@@ -5,11 +5,13 @@ import com.github.hyeyoom.blog.entity.post.Category
 import com.github.hyeyoom.blog.entity.post.Post
 import com.github.hyeyoom.blog.entity.post.PostRepository
 import com.github.hyeyoom.blog.service.account.AccountQueryService
+import com.github.hyeyoom.blog.service.exception.NoResourceFoundException
 import com.github.hyeyoom.blog.service.post.dto.CategoryDto
 import com.github.hyeyoom.blog.service.post.dto.PostDto
 import com.github.hyeyoom.blog.service.post.dto.PostSummary
 import com.github.hyeyoom.blog.service.post.dto.PostWriteRequest
 import mu.KotlinLogging
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -25,23 +27,19 @@ class PostService(
     private val accountQueryService: AccountQueryService
 ) {
 
-    fun getPostSummary(title: String): PostDto {
-        val post = repository.findByTitle(title) ?: throw IllegalArgumentException("페이지가 없다")
+    @Cacheable(cacheNames = ["post"], key = "#title")
+    fun getPost(title: String): PostDto {
+        val post = repository.findByTitle(title) ?: throw NoResourceFoundException("페이지가 없다")
         return makePostDto(post)
     }
 
+    @Cacheable(cacheNames = ["posts_summary"])
     fun getSummaries(): MutableList<PostSummary> {
         val pages = repository.findPosts(PageRequest.of(0, 5))
         return pages.stream()
             .map { PostSummary.toDto(it) }
             .collect(Collectors.toList())
     }
-
-    private fun makePostDto(post: Post) = PostDto(
-        post.title, post.content,
-        CategoryDto(post.category.name), mutableListOf(),
-        post.createdDate, post.lastModifiedDate
-    )
 
     @Transactional
     fun write(request: PostWriteRequest) {
@@ -54,6 +52,12 @@ class PostService(
         )
         repository.save(post)
     }
+
+    private fun makePostDto(post: Post) = PostDto(
+        post.title, post.content,
+        CategoryDto(post.category.name), mutableListOf(),
+        post.createdDate, post.lastModifiedDate
+    )
 
     private fun findCategory(name: String): Category {
         return categoryService.findCategory(name) ?: categoryService.createNewCategory(name)

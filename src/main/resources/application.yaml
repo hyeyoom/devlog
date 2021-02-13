@@ -10,3 +10,4 @@ spring:
 logging:
   level:
     com.github.hyeyoom.blog: trace
+    org.springframework.cache: trace

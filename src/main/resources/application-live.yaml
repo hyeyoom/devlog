@@ -1,0 +1,9 @@
+
+spring:
+  jpa:
+    show-sql: false
+    open-in-view: false
+
+logging:
+  level:
+    com.github.hyeyoom.blog: info
