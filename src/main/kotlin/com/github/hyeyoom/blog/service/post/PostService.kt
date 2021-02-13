@@ -5,12 +5,15 @@ import com.github.hyeyoom.blog.entity.post.Category
 import com.github.hyeyoom.blog.entity.post.Post
 import com.github.hyeyoom.blog.entity.post.PostRepository
 import com.github.hyeyoom.blog.service.account.AccountQueryService
+import com.github.hyeyoom.blog.service.post.dto.CategoryDto
 import com.github.hyeyoom.blog.service.post.dto.PostDto
+import com.github.hyeyoom.blog.service.post.dto.PostSummary
 import com.github.hyeyoom.blog.service.post.dto.PostWriteRequest
 import mu.KotlinLogging
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.stream.Collectors
 
 private val log = KotlinLogging.logger {}
 
@@ -22,21 +25,32 @@ class PostService(
     private val accountQueryService: AccountQueryService
 ) {
 
-    fun getPosts(): MutableList<PostDto> {
-        val pages = repository.findPosts(PageRequest.of(0, 5))
-        for (page in pages) {
-            log.info("page: $page")
-        }
-        return mutableListOf()
+    fun getPostSummary(title: String): PostDto {
+        val post = repository.findByTitle(title) ?: throw IllegalArgumentException("페이지가 없다")
+        return makePostDto(post)
     }
+
+    fun getSummaries(): MutableList<PostSummary> {
+        val pages = repository.findPosts(PageRequest.of(0, 5))
+        return pages.stream()
+            .map { PostSummary.toDto(it) }
+            .collect(Collectors.toList())
+    }
+
+    private fun makePostDto(post: Post) = PostDto(
+        post.title, post.content,
+        CategoryDto(post.category.name), mutableListOf(),
+        post.createdDate, post.lastModifiedDate
+    )
 
     @Transactional
     fun write(request: PostWriteRequest) {
         val category = findCategory(request.category)
         val account = findAccount(request.email)
         val post = Post(
-            title = request.title, content = request.content,
-            account = account, category = category
+            title = request.title, summary = request.summary,
+            content = request.content, account = account,
+            category = category
         )
         repository.save(post)
     }

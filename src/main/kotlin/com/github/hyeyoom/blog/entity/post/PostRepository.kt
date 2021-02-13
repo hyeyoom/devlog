@@ -13,4 +13,7 @@ interface PostRepository : JpaRepository<Post, Long> {
         countQuery = "SELECT count(p) FROM Post p"
     )
     fun findPosts(pageable: Pageable): Page<Post>
+
+    @Query(value = "SELECT p FROM Post p JOIN FETCH p.account pa JOIN FETCH p.category c WHERE p.title = :title")
+    fun findByTitle(title: String): Post?
 }

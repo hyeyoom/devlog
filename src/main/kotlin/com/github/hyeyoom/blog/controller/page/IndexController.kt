@@ -41,22 +41,9 @@ class IndexController(
 
     @GetMapping
     fun main(@CurrentUser details: UserDetails?, model: Model): String {
-        log.info(details?.getPrincipal())
-        val posts = postService.getPosts()
-
-        /*val account = Account("a@neoul.wiki", "hyeyoom")
-        accountRepository.save(account)
-        val tag = Tag("Java")
-        tagRepository.save(tag)
-        val category = Category("programming")
-        val c1 = Category("java")
-        categoryRepository.save(category)
-        categoryRepository.save(c1)
-        val post =
-            Post(title = "this is title", content = "this is content of post", account = account, category = category)
-        postRepository.save(post)
-
-        post.addTag(tag)*/
+        log.debug(details?.getPrincipal())
+        val posts = postService.getSummaries()
+        model.addAttribute("posts", posts)
         return "index"
     }
 
@@ -65,9 +52,11 @@ class IndexController(
         return "page"
     }
 
-    @GetMapping("/pages/{page}")
-    fun page(@PathVariable page: Long): String {
-        return "page"
+    @GetMapping("/pages/{title}")
+    fun page(@PathVariable title: String, model: Model): String {
+        val post = postService.getPostSummary(title)
+        model.addAttribute("article", post)
+        return "post"
     }
 
     @GetMapping("/categories")
@@ -89,7 +78,7 @@ class IndexController(
 
     @PostMapping("/signup")
     fun signUp(@Valid form: SignUpForm, bindingResult: BindingResult): String {
-        log.info("form: $form")
+        log.debug("form: $form")
         if (bindingResult.hasFieldErrors()) {
             return "signup"
         }
@@ -131,7 +120,7 @@ class IndexController(
         bindingResult: BindingResult,
         @CurrentUser details: UserDetails?
     ): String {
-        log.info("form: $form")
+        log.debug("form: $form")
         if (bindingResult.hasFieldErrors()) {
             return "write"
         }

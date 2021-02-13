@@ -7,6 +7,9 @@ data class WritePostForm(
     @field:NotEmpty(message = "제목은 필수입니다.")
     val title: String?,
 
+    @field:NotEmpty(message = "요약은 필수입니다.")
+    val summary: String?,
+
     @field:NotEmpty(message = "내용은 필수입니다.")
     val content: String?,
 
@@ -14,11 +17,11 @@ data class WritePostForm(
     val category: String?
 ) {
     fun toRequest(email: String?): PostWriteRequest {
-        if (title == null || content == null || category == null || email == null) {
+        if (title == null || content == null || summary == null || category == null || email == null) {
             throw IllegalStateException("이왜진?")
         }
-        return PostWriteRequest(title, content, category, email)
+        return PostWriteRequest(title, summary, content, category, email)
     }
 
-    constructor() : this(null, null, null)
+    constructor() : this(null, null, null, null)
 }

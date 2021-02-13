@@ -16,6 +16,10 @@ class Post(
     val title: String,
 
     @Column(nullable = false)
+    val summary: String,
+
+    @Lob
+    @Column(nullable = false)
     val content: String,
 
     @ManyToOne(fetch = LAZY)

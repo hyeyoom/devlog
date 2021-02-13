@@ -6,6 +6,12 @@ import com.github.hyeyoom.blog.entity.authentication.BasicAuthentication
 import javax.persistence.*
 
 @Entity
+@Table(
+    uniqueConstraints = [
+        UniqueConstraint(name = "uq_account_email", columnNames = ["email"]),
+        UniqueConstraint(name = "uq_account_username", columnNames = ["username"])
+    ]
+)
 class Account(
 
     @Id
@@ -13,8 +19,10 @@ class Account(
     @Column(name = "account_id")
     val id: Long? = null,
 
+    @Column(nullable = false)
     val email: String,
 
+    @Column(nullable = false)
     val username: String,
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "account", cascade = [CascadeType.ALL])
