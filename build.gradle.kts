@@ -31,11 +31,14 @@ repositories {
 }
 
 dependencies {
+	val kotlinVersion = "1.10.6"
 
 	// web mvc & test
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("io.mockk:mockk:$kotlinVersion")
+
 
 	// database
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -61,7 +64,7 @@ dependencies {
 }
 
 buildscript {
-	val kotlinVersion = "1.4.10"
+	val kotlinVersion = "1.4.21"
 	dependencies {
 		classpath ("org.jetbrains.kotlin:kotlin-noarg:$kotlinVersion")
 	}

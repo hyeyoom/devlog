@@ -2,6 +2,7 @@ package com.github.hyeyoom.blog.entity.post
 
 import com.github.hyeyoom.blog.entity.BaseTimeEntity
 import com.github.hyeyoom.blog.entity.account.Account
+import java.util.stream.Collectors
 import javax.persistence.*
 import javax.persistence.FetchType.LAZY
 
@@ -18,14 +19,14 @@ class Post(
     val id: Long? = null,
 
     @Column(nullable = false)
-    val title: String,
+    var title: String,
 
     @Column(nullable = false)
-    val summary: String,
+    var summary: String,
 
     @Lob
     @Column(nullable = false)
-    val content: String,
+    var content: String,
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "account_id", nullable = false)
@@ -33,7 +34,7 @@ class Post(
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "category_id", nullable = false)
-    val category: Category,
+    var category: Category,
 
     @OneToMany(mappedBy = "post", cascade = [CascadeType.PERSIST])
     val postTags: MutableSet<PostTag> = mutableSetOf()
@@ -42,6 +43,12 @@ class Post(
     fun addTag(tag: Tag) {
         val postTag = PostTag(this, tag)
         postTags.add(postTag)
+    }
+
+    fun tags(): MutableSet<Tag> {
+        return postTags.stream()
+            .map { it.tag }
+            .collect(Collectors.toSet())
     }
 
     override fun toString(): String {
